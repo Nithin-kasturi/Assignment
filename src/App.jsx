@@ -4,7 +4,8 @@ import HomePage from './pages/HomePage';
 import AdminPage from './pages/AdminPage';
 import UserPage from './pages/UserPage';
 import Login from './components/Login';
-import CheckoutPage from './pages/CheckOutPage';
+import CheckoutPage from './pages/CheckoutPage';
+
 
 function App() {
   const [role, setRole] = useState(null);  // 'admin' or 'user'
