@@ -3,43 +3,40 @@ import { useLocation } from 'react-router-dom';
 
 function CheckoutPage() {
   const location = useLocation();
-  const cart = location.state?.cart || [];
-  
+  const { cart } = location.state || { cart: [] }; // Fallback in case cart is not passed
+
   const totalPrice = cart.reduce((sum, item) => {
     const price = parseFloat(item.price) || 0;
     const quantity = parseInt(item.quantity, 10) || 0;
-    return sum + (price * quantity);
+    return sum + price * quantity;
   }, 0);
 
   const handlePayment = () => {
-    // Simulate order placement and clear the cart
     fetch('http://localhost:5000/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ items: cart, total: totalPrice }),
     })
-    .then(() => {
-      alert('Order placed successfully!');
-      // Optionally, you might want to redirect to a confirmation page or clear the cart
-    })
-    .catch((error) => console.error('Error placing order:', error));
+      .then(() => {
+        alert('Order placed successfully!');
+      })
+      .catch((error) => console.error('Error placing order:', error));
   };
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Checkout</h1>
       {cart.length === 0 ? (
-        <p className="text-lg">Your cart is empty. Add items to your cart to proceed with checkout.</p>
+        <p className="text-lg">Your cart is empty.</p>
       ) : (
         <div className="space-y-4">
           <div className="bg-white shadow-md rounded-lg p-4">
             <h2 className="text-xl font-semibold mb-4">Cart Items</h2>
-            {cart.map(item => (
+            {cart.map((item) => (
               <div key={item.id} className="flex items-center space-x-4 mb-4">
-                <img 
-                  src={item.thumbnail || item.images[0]} 
-                  alt={item.title} 
-                  loading="lazy" 
+                <img
+                  src={item.thumbnail || item.images[0]}
+                  alt={item.title}
                   className="w-24 h-24 object-cover rounded-md"
                 />
                 <div className="flex-1">
