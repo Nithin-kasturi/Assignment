@@ -1,6 +1,6 @@
 
 # Assignment 
-Frontend for an e-commerce 
+Simple Frontend for an e-commerce 
 
 
 
